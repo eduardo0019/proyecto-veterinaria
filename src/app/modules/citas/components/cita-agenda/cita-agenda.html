@@ -1,0 +1,65 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Agenda de citas médicas</h2>
+    <a routerLink="/citas/nueva" class="btn btn-primary">
+      Registrar cita
+    </a>
+  </div>
+
+  <div *ngIf="citas.length === 0" class="alert alert-info">
+    No hay citas registradas.
+  </div>
+
+  <div class="table-responsive" *ngIf="citas.length > 0">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Mascota</th>
+          <th>Fecha y hora</th>
+          <th>Motivo</th>
+          <th>Prioridad</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cita of citas" [appHighlightUrgente]="cita.prioridad">
+          <td>{{ nombreMascota(cita.mascotaId) }}</td>
+          <td>{{ cita.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ cita.motivo }}</td>
+          <td>{{ cita.prioridad }}</td>
+          <td>
+            <span class="badge" [ngClass]="cita.estado | estadoCita">
+              {{ cita.estado }}
+            </span>
+          </td>
+          <td>
+            <div class="d-flex flex-wrap gap-1">
+              <button
+                *ngIf="cita.estado === 'PROGRAMADA'"
+                class="btn btn-sm btn-info"
+                (click)="cambiarEstado(cita, 'EN_ATENCION')">
+                Iniciar Atención
+              </button>
+
+              <button
+                *ngIf="cita.estado === 'EN_ATENCION'"
+                class="btn btn-sm btn-success"
+                (click)="cambiarEstado(cita, 'COMPLETADA')">
+                Completar
+              </button>
+
+              <button
+                *ngIf="cita.estado === 'PROGRAMADA' || cita.estado === 'EN_ATENCION'"
+                class="btn btn-sm btn-danger"
+                (click)="cambiarEstado(cita, 'CANCELADA')">
+                Cancelar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

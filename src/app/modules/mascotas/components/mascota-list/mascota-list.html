@@ -1,0 +1,40 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Mascotas registradas</h2>
+    <a routerLink="/mascotas/nuevo" class="btn btn-primary">+ Nueva mascota</a>
+  </div>
+
+  @if (mascotas.length === 0) {
+    <div class="alert alert-info">Aún no hay mascotas registradas.</div>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Nombre</th>
+            <th>Especie</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Dueño</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of mascotas; track m.id) {
+            @let dueno = obtenerDueno(m.duenoId);
+            <tr>
+              <td>{{ m.nombre }}</td>
+              <td>{{ m.especie }}</td>
+              <td>{{ m.raza }}</td>
+              <td>{{ m.calcularEdad() }} {{ m.calcularEdad() === 1 ? 'año' : 'años' }}</td>
+              <td>{{ dueno?.nombre }}</td>
+              <td>{{ dueno?.telefono }}</td>
+              <td>{{ dueno?.email }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

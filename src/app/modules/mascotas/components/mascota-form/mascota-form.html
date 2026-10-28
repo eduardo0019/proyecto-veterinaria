@@ -1,0 +1,108 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Nueva Mascota</h2>
+    <a routerLink="/mascotas" class="btn btn-outline-secondary btn-sm">← Volver a la lista</a>
+  </div>
+
+  @if (guardado) {
+    <div class="alert alert-success">¡Mascota registrada correctamente!</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="row g-4">
+
+      <!-- DATOS MASCOTA -->
+      <div class="col-12 col-md-6" formGroupName="mascota">
+        <div class="card h-100">
+          <div class="card-header fw-bold">Datos Mascota</div>
+          <div class="card-body">
+
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input class="form-control" formControlName="nombre"
+                     [class.is-invalid]="esInvalido('mascota.nombre')">
+              <div class="invalid-feedback">Ingresa el nombre (mínimo 2 caracteres).</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Especie</label>
+              <select class="form-select" formControlName="especie"
+                      [class.is-invalid]="esInvalido('mascota.especie')">
+                <option value="">Seleccione...</option>
+                @for (e of especies; track e) {
+                  <option [value]="e">{{ e }}</option>
+                }
+              </select>
+              <div class="invalid-feedback">Selecciona la especie.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Raza</label>
+              <input class="form-control" formControlName="raza"
+                     [class.is-invalid]="esInvalido('mascota.raza')">
+              <div class="invalid-feedback">Ingresa la raza.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Fecha de nacimiento</label>
+              <input type="date" class="form-control" formControlName="fechaNacimiento"
+                     [class.is-invalid]="esInvalido('mascota.fechaNacimiento')">
+              <div class="invalid-feedback">Ingresa la fecha de nacimiento.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- DATOS DUEÑO -->
+      <div class="col-12 col-md-6" formGroupName="dueno">
+        <div class="card h-100">
+          <div class="card-header fw-bold">Datos Dueño</div>
+          <div class="card-body">
+
+            <div class="mb-3">
+              <label class="form-label">Nombre completo</label>
+              <input class="form-control" formControlName="nombre"
+                     [class.is-invalid]="esInvalido('dueno.nombre')">
+              <div class="invalid-feedback">Ingresa el nombre completo.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">DNI</label>
+              <input class="form-control" formControlName="dni" maxlength="8"
+                     [class.is-invalid]="esInvalido('dueno.dni')">
+              <div class="invalid-feedback">El DNI debe tener 8 dígitos.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" class="form-control" formControlName="telefono"
+                     [class.is-invalid]="esInvalido('dueno.telefono')">
+              <div class="invalid-feedback">El teléfono debe tener mínimo 9 dígitos.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" formControlName="email"
+                     [class.is-invalid]="esInvalido('dueno.email')">
+              <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Dirección</label>
+              <input class="form-control" formControlName="direccion"
+                     [class.is-invalid]="esInvalido('dueno.direccion')">
+              <div class="invalid-feedback">Ingresa la dirección.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
